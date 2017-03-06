@@ -8,13 +8,16 @@ entity reg is
 end reg;
 
 architecture reg_arch of reg is
+  signal qint : std_logic_vector(7 downto 0) := "00000000";
 begin
-  q <= (others => '0'); -- default value
   -- assuming rising edge, and LD is active low 
-  process(clk)
+  process(clk, ld)
   begin
-    if(clk'event and clk='1' and ld='0') then
-      q <= d;
+    if(clk'event and clk='1' ) then
+      if(ld='0') then
+        qint <= d;
+      end if;
     end if;
+    q <= qint;
   end process;
 end reg_arch;
